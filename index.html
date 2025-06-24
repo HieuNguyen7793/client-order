@@ -42,6 +42,17 @@
             overflow: hidden;
         }
 
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+
         .header h1 {
             font-size: 1.8rem;
             font-weight: 700;
@@ -80,8 +91,8 @@
 
         .search-bar input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #9b59b6;
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
         }
 
         .filter-tabs {
@@ -105,9 +116,9 @@
 
         .filter-btn.active,
         .filter-btn:hover {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
-            border-color: #667eea;
+            border-color: #9b59b6;
         }
 
         /* Menu Content */
@@ -131,7 +142,7 @@
             font-size: 1.1rem;
             font-weight: 700;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-bottom: 2px solid #e74c3c;
+            border-bottom: 2px solid #9b59b6;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -152,7 +163,7 @@
             padding: 16px 12px;
             text-align: center;
             background: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             min-height: 140px;
             display: flex;
             flex-direction: column;
@@ -169,16 +180,16 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
 
         .menu-item:hover {
-            background: linear-gradient(135deg, #e8f5e8, #d4edda);
-            border-color: #27ae60;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+            background: linear-gradient(135deg, #f8f4ff, #f0e6ff);
+            border-color: #9b59b6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.2);
         }
 
         .menu-item:hover::before {
@@ -186,10 +197,11 @@
         }
 
         .menu-item.has-quantity {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            border-color: #27ae60;
+            background: linear-gradient(135deg, #f4e6ff, #e8d5ff);
+            border-color: #9b59b6;
             border-width: 2px;
-            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+            transform: translateY(-1px);
         }
 
         .item-name {
@@ -199,6 +211,11 @@
             font-size: 0.9rem;
             line-height: 1.3;
             text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .menu-item.has-quantity .item-name {
+            color: #6c3483;
         }
 
         .item-price {
@@ -206,66 +223,96 @@
             font-size: 1.1rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fff5f5, #fee);
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 12px;
             border: 1px solid #fecaca;
             margin-bottom: 8px;
+            transition: all 0.3s ease;
         }
 
-        /* Quantity Controls */
+        .menu-item.has-quantity .item-price {
+            background: linear-gradient(135deg, #f4e6ff, #e8d5ff);
+            border-color: #d5b3e8;
+            color: #6c3483;
+        }
+
+        /* Enhanced Quantity Controls - Slim Purple Design */
         .quantity-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-top: 8px;
-        }
-
-        .qty-btn {
-            width: 32px;
-            height: 32px;
-            border: 2px solid #e74c3c;
-            background: white;
-            color: #e74c3c;
-            border-radius: 50%;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
             justify-content: center;
         }
 
-        .qty-btn:hover {
-            background: #e74c3c;
+        .qty-btn {
+            width: 28px;
+            height: 24px;
+            border: 1px solid #8e44ad;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
-            transform: scale(1.1);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(142, 68, 173, 0.3);
+        }
+
+        .qty-btn:hover {
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
+            transform: translateY(-1px) scale(1.05);
+            box-shadow: 0 4px 8px rgba(142, 68, 173, 0.4);
         }
 
         .qty-btn:active {
-            transform: scale(0.95);
+            transform: translateY(0) scale(0.95);
+            box-shadow: 0 1px 2px rgba(142, 68, 173, 0.3);
         }
 
         .quantity {
             min-width: 32px;
-            height: 32px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 1rem;
-            border: 2px solid #27ae60;
+            background: linear-gradient(135deg, #e8f4f8, #d5e8f0);
+            color: #2c3e50;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid #bdc3c7;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
 
-        /* Cart Section - Enhanced */
+        .menu-item.has-quantity .quantity {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border-color: #8e44ad;
+            font-weight: 800;
+            box-shadow: 0 2px 6px rgba(142, 68, 173, 0.4);
+        }
+
+        @keyframes quantityPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .quantity.pulse {
+            animation: quantityPulse 0.3s ease;
+        }
+
+        /* Cart Section */
         .cart-section {
             margin: 0;
             padding: 20px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-top: 3px solid #667eea;
+            border-top: 3px solid #9b59b6;
         }
 
         .cart-header {
@@ -328,7 +375,7 @@
             box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
         }
 
-        /* Total Section - Enhanced */
+        /* Total Section */
         .total-section {
             font-size: 1.4rem;
             font-weight: 800;
@@ -336,12 +383,12 @@
             text-align: center;
             margin-bottom: 20px;
             padding: 16px;
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
             border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.3);
         }
 
-        /* Form Styles - Mobile Optimized */
+        /* Form Styles */
         .form-group {
             margin-bottom: 16px;
         }
@@ -355,8 +402,7 @@
         }
 
         .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group textarea {
             width: 100%;
             padding: 16px 20px;
             border: 2px solid #e9ecef;
@@ -368,11 +414,10 @@
         }
 
         .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
+        .form-group textarea:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            border-color: #9b59b6;
+            box-shadow: 0 0 0 4px rgba(155, 89, 182, 0.1);
             transform: translateY(-1px);
         }
 
@@ -382,10 +427,9 @@
             line-height: 1.5;
         }
 
-
-        /* Submit Button - Enhanced */
+        /* Submit Button */
         .submit-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
             padding: 18px 32px;
             border: none;
@@ -395,17 +439,32 @@
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             position: relative;
             overflow: hidden;
         }
 
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
         .submit-btn:hover {
-            background: linear-gradient(135deg, #5a67d8, #6b46c1);
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.5);
         }
 
         .submit-btn:disabled {
@@ -415,7 +474,7 @@
             box-shadow: none;
         }
 
-        /* Enhanced Success Modal */
+        /* Success Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -470,7 +529,7 @@
         .modal-title {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #27ae60;
+            color: #9b59b6;
             margin-bottom: 8px;
         }
 
@@ -500,7 +559,35 @@
             border-bottom: none;
             font-weight: 700;
             font-size: 1rem;
-            color: #27ae60;
+            color: #9b59b6;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .order-items-detail {
+            margin: 12px 0;
+        }
+
+        .order-items-detail h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .item-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.85rem;
+            color: #555;
         }
 
         /* Modal Action Buttons */
@@ -524,15 +611,15 @@
         }
 
         .btn-continue {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
-            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
         }
 
         .btn-continue:hover {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
         }
 
         .btn-exit {
@@ -560,12 +647,12 @@
         }
 
         .success-message {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            color: #155724;
+            background: linear-gradient(135deg, #f4e6ff, #e8d5ff);
+            color: #6c3483;
             padding: 16px;
             border-radius: 12px;
             margin: 12px 0;
-            border: 1px solid #86efac;
+            border: 1px solid #d5b3e8;
             font-size: 0.95rem;
             font-weight: 600;
         }
@@ -589,7 +676,7 @@
             border: 2px dashed #d1d5db;
         }
 
-        /* Tablet and larger screens */
+        /* Responsive Design */
         @media (min-width: 768px) {
             .container {
                 max-width: 600px;
@@ -615,8 +702,7 @@
             }
         }
 
-        /* Small mobile optimization */
-        @media (max-width: 360px) {
+        @media (max-width: 480px) {
             body {
                 padding: 12px;
             }
@@ -629,6 +715,23 @@
             .menu-item {
                 min-height: 120px;
                 padding: 12px 8px;
+            }
+            
+            .qty-btn {
+                width: 26px;
+                height: 22px;
+                font-size: 0.8rem;
+            }
+            
+            .quantity {
+                min-width: 28px;
+                height: 22px;
+                font-size: 0.8rem;
+            }
+            
+            .quantity-controls {
+                gap: 6px;
+                margin-top: 8px;
             }
         }
     </style>
@@ -663,40 +766,39 @@
         </div>
         
         <!-- Cart Section -->
-        <!-- Cart Section - Simplified -->
-<div class="cart-section">
-    <div class="cart-header">🛒 Giỏ hàng của bạn</div>
-    <div class="cart-items" id="cartItems">
-        <div class="empty-cart">
-            <p>🍽️ Chưa có món nào trong giỏ hàng</p>
-            <small>Hãy chọn món yêu thích từ menu bên trên</small>
+        <div class="cart-section">
+            <div class="cart-header">🛒 Giỏ hàng của bạn</div>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <p>🍽️ Chưa có món nào trong giỏ hàng</p>
+                    <small>Hãy chọn món yêu thích từ menu bên trên</small>
+                </div>
+            </div>
+            <div class="total-section">
+                💰 Tổng cộng: <span id="totalAmount">0</span>K
+            </div>
+
+            <div class="form-group">
+                <label for="customerName">👤 Tên khách hàng / Số bàn *</label>
+                <input type="text" 
+                       id="customerName" 
+                       placeholder="VD: Nguyễn Văn A hoặc Bàn 5" 
+                       required
+                       autocomplete="name">
+            </div>
+
+            <div class="form-group">
+                <label for="notes">📝 Ghi chú đặc biệt (tùy chọn)</label>
+                <textarea id="notes" 
+                          placeholder="Ít đường, nhiều đá, không cay..."></textarea>
+            </div>
+
+            <button class="submit-btn" onclick="submitOrder()" id="submitBtn">
+                🚀 Gửi đơn hàng ngay
+            </button>
+
+            <div id="message"></div>
         </div>
-    </div>
-    <div class="total-section">
-        💰 Tổng cộng: <span id="totalAmount">0</span>K
-    </div>
-
-    <div class="form-group">
-        <label for="customerName">👤 Tên khách hàng / Số bàn *</label>
-        <input type="text" 
-               id="customerName" 
-               placeholder="VD: Nguyễn Văn A hoặc Bàn 5" 
-               required
-               autocomplete="name">
-    </div>
-
-    <div class="form-group">
-        <label for="notes">📝 Ghi chú đặc biệt (tùy chọn)</label>
-        <textarea id="notes" 
-                  placeholder="Ít đường, nhiều đá, không cay..."></textarea>
-    </div>
-
-    <button class="submit-btn" onclick="submitOrder()" id="submitBtn">
-        🚀 Gửi đơn hàng ngay
-    </button>
-
-    <div id="message"></div>
-</div>
     </div>
 
     <!-- Success Modal -->
@@ -724,17 +826,15 @@
     </div>
 
     <script>
-        // URL Google Apps Script Web App (GIỮ NGUYÊN)
+        // URLs - GIỮ NGUYÊN
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzO9IwMTrkCzJhhJDXBsWPGOeCTa0dpp4vJY-uo37XKipmnN0xwlOynJ7Z8GpvKeoxwUQ/exec';
-
-        // URL của Google Sheet đã xuất bản (GIỮ NGUYÊN)
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzCZySXkrCv63cFBoH1lhEHIiT5ZlstsZnhNOZcTNyWl9HAdshAygUyNR-543YcrNmLtYD9JoJiCY6/pub?gid=0&single=true&output=csv';
 
         // Variables
         let cart = [];
         let totalAmount = 0;
         let menuData = [];
-        let itemQuantities = {}; // Track quantities for each item
+        let itemQuantities = {};
 
         // Search functionality
         function searchMenu(query) {
@@ -769,7 +869,7 @@
             event.target.classList.add('active');
         }
 
-        // Fixed Quantity management with automatic cart update
+        // Enhanced quantity management with visual effects
         function changeQuantity(itemName, itemPrice, change) {
             const itemKey = itemName.replace(/\s+/g, '-').toLowerCase();
             const qtyElement = document.getElementById(`qty-${itemKey}`);
@@ -779,8 +879,11 @@
             let currentQty = parseInt(qtyElement.textContent) || 0;
             let newQty = Math.max(0, currentQty + change);
             
-            // Update display
+            // Update display with animation
             qtyElement.textContent = newQty;
+            qtyElement.classList.add('pulse');
+            setTimeout(() => qtyElement.classList.remove('pulse'), 300);
+            
             itemQuantities[itemName] = newQty;
             
             // Update menu item visual state
@@ -893,163 +996,163 @@
 
             setTimeout(() => {
                 messageElement.innerHTML = '';
-            }, 4000);
+            }, 3000);
         }
 
-// Rollback to simple version that was working before
-function submitOrder() {
-    const customerName = document.getElementById('customerName').value;
-    const notes = document.getElementById('notes').value;
-    const submitBtn = document.getElementById('submitBtn');
+        // Submit order using form method
+        function submitOrder() {
+            const customerName = document.getElementById('customerName').value;
+            const notes = document.getElementById('notes').value;
+            const submitBtn = document.getElementById('submitBtn');
 
-    // Validation
-    if (!customerName.trim()) {
-        showMessage('⚠️ Vui lòng nhập tên khách hàng hoặc số bàn!', 'error');
-        document.getElementById('customerName').focus();
-        return;
-    }
+            // Validation
+            if (!customerName.trim()) {
+                showMessage('⚠️ Vui lòng nhập tên khách hàng hoặc số bàn!', 'error');
+                document.getElementById('customerName').focus();
+                return;
+            }
 
-    if (cart.length === 0) {
-        showMessage('⚠️ Vui lòng chọn ít nhất một món từ menu!', 'error');
-        return;
-    }
+            if (cart.length === 0) {
+                showMessage('⚠️ Vui lòng chọn ít nhất một món từ menu!', 'error');
+                return;
+            }
 
-    // Loading state
-    submitBtn.innerHTML = '⏳ Đang gửi đơn hàng...';
-    submitBtn.disabled = true;
+            // Loading state
+            submitBtn.innerHTML = '⏳ Đang gửi đơn hàng...';
+            submitBtn.disabled = true;
 
-    console.log("Preparing to submit order...");
-    console.log("Cart items:", cart);
-    console.log("Customer name:", customerName);
-    console.log("Total:", totalAmount);
+            console.log("Preparing to submit order...");
+            console.log("Cart items:", cart);
+            console.log("Customer name:", customerName);
+            console.log("Total:", totalAmount);
 
-    // 🔄 ROLLBACK: Sử dụng method form submission như cũ thay vì fetch
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = SCRIPT_URL;
-    form.target = '_blank'; // Tạm thời mở tab mới để debug
+            // Form submission - không mở tab mới
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = SCRIPT_URL;
 
-    const data = {
-        customerName: customerName.trim(),
-        notes: notes.trim(),
-        items: JSON.stringify(cart),
-        total: totalAmount,
-        orderTime: new Date().toLocaleString('vi-VN')
-    };
-
-    console.log("Form data:", data);
-
-    Object.keys(data).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = data[key];
-        form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-
-    // Show success message after short delay
-    setTimeout(() => {
-        showSuccessModal(data, Math.floor(Math.random() * 1000));
-        document.body.removeChild(form);
-    }, 2000);
-}
-
-
-
-// Show success modal with simplified order details
-function showSuccessModal(orderData, orderId) {
-    const modal = document.getElementById('successModal');
-    const orderDetailsContent = document.getElementById('orderDetailsContent');
-    
-    // Group items for display
-    const groupedItems = {};
-    JSON.parse(orderData.items).forEach(item => {
-        if (groupedItems[item.name]) {
-            groupedItems[item.name].quantity++;
-            groupedItems[item.name].totalPrice += item.price;
-        } else {
-            groupedItems[item.name] = {
-                name: item.name,
-                quantity: 1,
-                unitPrice: item.price,
-                totalPrice: item.price
+            const data = {
+                customerName: customerName.trim(),
+                notes: notes.trim(),
+                items: JSON.stringify(cart),
+                total: totalAmount,
+                orderTime: new Date().toLocaleString('vi-VN')
             };
+
+            console.log("Form data:", data);
+
+            Object.keys(data).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+
+            // Hiển thị modal success
+            setTimeout(() => {
+                showSuccessModal(data, Math.floor(Math.random() * 1000));
+                document.body.removeChild(form);
+                
+                // Reset submit button
+                submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
+                submitBtn.disabled = false;
+            }, 1500);
         }
-    });
 
-    // Generate simplified order details HTML
-    orderDetailsContent.innerHTML = `
-        <div class="detail-row">
-            <span class="detail-label">Mã đơn hàng:</span>
-            <span class="detail-value">#${orderId || Math.floor(Math.random() * 1000)}</span>
-        </div>
-        <div class="detail-row">
-            <span class="detail-label">Khách hàng:</span>
-            <span class="detail-value">${orderData.customerName}</span>
-        </div>
-        <div class="detail-row">
-            <span class="detail-label">Thời gian:</span>
-            <span class="detail-value">${orderData.orderTime}</span>
-        </div>
-        
-        <div class="order-items-detail">
-            <h4>Chi tiết:</h4>
-            ${Object.values(groupedItems).map(item => `
-                <div class="item-detail">
-                    <span>${item.name} x${item.quantity}</span>
-                    <span>${item.totalPrice}K</span>
+        // Show success modal with order details
+        function showSuccessModal(orderData, orderId) {
+            const modal = document.getElementById('successModal');
+            const orderDetailsContent = document.getElementById('orderDetailsContent');
+            
+            // Group items for display
+            const groupedItems = {};
+            JSON.parse(orderData.items).forEach(item => {
+                if (groupedItems[item.name]) {
+                    groupedItems[item.name].quantity++;
+                    groupedItems[item.name].totalPrice += item.price;
+                } else {
+                    groupedItems[item.name] = {
+                        name: item.name,
+                        quantity: 1,
+                        unitPrice: item.price,
+                        totalPrice: item.price
+                    };
+                }
+            });
+
+            // Generate order details HTML
+            orderDetailsContent.innerHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">Mã đơn hàng:</span>
+                    <span class="detail-value">#${orderId}</span>
                 </div>
-            `).join('')}
-        </div>
-        
-        ${orderData.notes ? `
-        <div class="detail-row">
-            <span class="detail-label">Ghi chú:</span>
-            <span class="detail-value">${orderData.notes}</span>
-        </div>
-        ` : ''}
-        
-        <div class="detail-row">
-            <span class="detail-label">Tổng tiền:</span>
-            <span class="detail-value">${orderData.total}K</span>
-        </div>
-    `;
-    
-    modal.classList.add('show');
-}
+                <div class="detail-row">
+                    <span class="detail-label">Khách hàng:</span>
+                    <span class="detail-value">${orderData.customerName}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Thời gian:</span>
+                    <span class="detail-value">${orderData.orderTime}</span>
+                </div>
+                
+                <div class="order-items-detail">
+                    <h4>Chi tiết:</h4>
+                    ${Object.values(groupedItems).map(item => `
+                        <div class="item-detail">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>${item.totalPrice}K</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                ${orderData.notes ? `
+                <div class="detail-row">
+                    <span class="detail-label">Ghi chú:</span>
+                    <span class="detail-value">${orderData.notes}</span>
+                </div>
+                ` : ''}
+                
+                <div class="detail-row">
+                    <span class="detail-label">Tổng tiền:</span>
+                    <span class="detail-value">${orderData.total}K</span>
+                </div>
+            `;
+            
+            modal.classList.add('show');
+        }
 
-
-  // Continue ordering - simplified reset
-function continueOrdering() {
-    // Reset form and cart
-    cart = [];
-    totalAmount = 0;
-    itemQuantities = {};
-    updateCartDisplay();
-    document.getElementById('customerName').value = '';
-    document.getElementById('notes').value = '';
-    
-    // Reset submit button
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
-    submitBtn.disabled = false;
-    
-    // Reset all quantity displays
-    document.querySelectorAll('.quantity').forEach(qty => {
-        qty.textContent = '0';
-    });
-    document.querySelectorAll('.menu-item').forEach(item => {
-        item.classList.remove('has-quantity');
-    });
-    
-    // Hide modal
-    document.getElementById('successModal').classList.remove('show');
-    
-    showMessage('✨ Sẵn sàng cho đơn hàng tiếp theo!', 'success');
-}
+        // Continue ordering
+        function continueOrdering() {
+            // Reset form and cart
+            cart = [];
+            totalAmount = 0;
+            itemQuantities = {};
+            updateCartDisplay();
+            document.getElementById('customerName').value = '';
+            document.getElementById('notes').value = '';
+            
+            // Reset submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
+            submitBtn.disabled = false;
+            
+            // Reset all quantity displays
+            document.querySelectorAll('.quantity').forEach(qty => {
+                qty.textContent = '0';
+            });
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('has-quantity');
+            });
+            
+            // Hide modal
+            document.getElementById('successModal').classList.remove('show');
+            
+            showMessage('✨ Sẵn sàng cho đơn hàng tiếp theo!', 'success');
+        }
 
         // Exit app
         function exitApp() {
@@ -1065,26 +1168,62 @@ function continueOrdering() {
             }, 500);
         }
 
-        // CSV parsing function (GIỮ NGUYÊN)
+        // CSV parsing function
         function csvToJson(csv) {
-            const lines = csv.split('\n');
-            const headers = lines[0].split(',').map(header => header.trim()).filter(header => header !== '');
-            const result = [];
-
-            for (let i = 1; i < lines.length; i++) {
-                const obj = {};
-                const currentLine = lines[i].split(',');
-                if (currentLine.length > 1 && currentLine.some(cell => cell.trim() !== '')) {
-                    for (let j = 0; j < headers.length; j++) {
-                        obj[headers[j]] = currentLine[j] ? currentLine[j].trim() : '';
-                    }
-                    result.push(obj);
+            try {
+                const lines = csv.split('\n').filter(line => line.trim() !== '');
+                if (lines.length < 2) {
+                    throw new Error('CSV data is empty or invalid');
                 }
+                
+                // Get headers and clean them
+                const headers = lines[0].split(',').map(header => 
+                    header.trim().replace(/[^\w\s]/gi, '').replace(/\s+/g, ' ')
+                ).filter(header => header !== '');
+                
+                console.log('CSV Headers found:', headers);
+                
+                const result = [];
+
+                for (let i = 1; i < lines.length; i++) {
+                    const obj = {};
+                    const currentLine = lines[i].split(',');
+                    
+                    if (currentLine.length > 1 && currentLine.some(cell => cell.trim() !== '')) {
+                        for (let j = 0; j < Math.min(headers.length, currentLine.length); j++) {
+                            const cleanHeader = headers[j];
+                            const cellValue = currentLine[j] ? currentLine[j].trim() : '';
+                            
+                            // Map to expected field names
+                            if (cleanHeader.toLowerCase().includes('name') || cleanHeader === 'name') {
+                                obj['name'] = cellValue;
+                            } else if (cleanHeader.toLowerCase().includes('price') || cleanHeader === 'price') {
+                                obj['price'] = cellValue;
+                            } else if (cleanHeader.toLowerCase().includes('category') || cleanHeader === 'category') {
+                                obj['category'] = cellValue;
+                            } else if (cleanHeader.toLowerCase().includes('id') || cleanHeader.includes('ID')) {
+                                obj['id'] = cellValue;
+                            } else {
+                                obj[cleanHeader] = cellValue;
+                            }
+                        }
+                        
+                        // Only add if we have name and price
+                        if (obj.name && obj.price) {
+                            result.push(obj);
+                        }
+                    }
+                }
+                
+                console.log('Parsed menu items:', result.length);
+                return result;
+            } catch (error) {
+                console.error('CSV parsing error:', error);
+                throw error;
             }
-            return result;
         }
 
-        // Enhanced render menu function
+        // Render menu function
         function renderMenu(menuData) {
             const dynamicMenuContainer = document.getElementById('dynamic-menu-container');
             dynamicMenuContainer.innerHTML = '';
@@ -1172,36 +1311,81 @@ function continueOrdering() {
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🍹 La Cà Beverage - Loading...');
             
-            fetch(SHEET_URL)
+            // Enhanced fetch with timeout
+            const fetchWithTimeout = (url, timeout = 15000) => {
+                return Promise.race([
+                    fetch(url),
+                    new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Request timeout')), timeout)
+                    )
+                ]);
+            };
+            
+            fetchWithTimeout(SHEET_URL, 15000)
                 .then(response => {
+                    console.log('Response status:', response.status);
+                    
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
                     }
                     return response.text();
                 })
                 .then(csv => {
-                    console.log('✅ CSV data loaded');
+                    console.log('✅ CSV data loaded, length:', csv.length);
+                    
+                    if (!csv || csv.trim() === '') {
+                        throw new Error('CSV data is empty');
+                    }
+                    
                     menuData = csvToJson(csv);
-                    console.log('📊 Menu data:', menuData);
+                    console.log('📊 Menu data parsed:', menuData);
 
                     const filteredMenuData = menuData.filter(item => 
                         item.name && item.name.trim() !== '' && 
-                        item.price && !isNaN(parseInt(item.price))
+                        item.price && !isNaN(parseInt(item.price)) && parseInt(item.price) > 0
                     );
+
+                    console.log('📋 Filtered menu items:', filteredMenuData.length);
 
                     if (filteredMenuData.length > 0) {
                         renderMenu(filteredMenuData);
+                        showMessage(`✅ Đã tải ${filteredMenuData.length} món từ menu!`, 'success');
                     } else {
-                        showMessage('❌ Không tìm thấy món nào hợp lệ trong menu.', 'error');
+                        throw new Error('Không tìm thấy món nào hợp lệ trong menu');
                     }
                 })
                 .catch(error => {
                     console.error('❌ Error loading menu:', error);
-                    showMessage('❌ Không thể tải menu. Vui lòng thử lại.', 'error');
+                    
+                    // Show detailed error message
+                    let errorMessage = 'Không thể tải menu. ';
+                    if (error.message.includes('timeout')) {
+                        errorMessage += 'Kết nối quá chậm, vui lòng thử lại.';
+                    } else if (error.message.includes('HTTP error')) {
+                        errorMessage += 'Lỗi server, vui lòng thử lại sau.';
+                    } else if (error.message.includes('Failed to fetch')) {
+                        errorMessage += 'Kiểm tra kết nối internet và thử lại.';
+                    } else {
+                        errorMessage += error.message;
+                    }
+                    
+                    showMessage(`❌ ${errorMessage}`, 'error');
+                    
+                    // Show fallback message
+                    document.getElementById('dynamic-menu-container').innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px; color: #666;">
+                            <div style="font-size: 3rem; margin-bottom: 16px;">😔</div>
+                            <h3 style="color: #e74c3c; margin-bottom: 12px;">Không thể tải menu</h3>
+                            <p style="margin-bottom: 20px;">${errorMessage}</p>
+                            <button onclick="location.reload()" style="background: #9b59b6; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;">
+                                🔄 Thử lại
+                            </button>
+                        </div>
+                    `;
                 });
 
             updateCartDisplay();
-            console.log('🚀 La Cà Beverage loaded successfully!');
+            console.log('🚀 La Cà Beverage initialization completed');
         });
 
         // Prevent accidental page leave
