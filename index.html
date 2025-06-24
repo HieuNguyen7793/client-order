@@ -896,7 +896,7 @@
             }, 4000);
         }
 
-// Enhanced submit order - simplified
+// Rollback to simple version that was working before
 function submitOrder() {
     const customerName = document.getElementById('customerName').value;
     const notes = document.getElementById('notes').value;
@@ -918,8 +918,18 @@ function submitOrder() {
     submitBtn.innerHTML = '⏳ Đang gửi đơn hàng...';
     submitBtn.disabled = true;
 
-    // Prepare order data - simplified
-    const orderData = {
+    console.log("Preparing to submit order...");
+    console.log("Cart items:", cart);
+    console.log("Customer name:", customerName);
+    console.log("Total:", totalAmount);
+
+    // 🔄 ROLLBACK: Sử dụng method form submission như cũ thay vì fetch
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SCRIPT_URL;
+    form.target = '_blank'; // Tạm thời mở tab mới để debug
+
+    const data = {
         customerName: customerName.trim(),
         notes: notes.trim(),
         items: JSON.stringify(cart),
@@ -927,30 +937,26 @@ function submitOrder() {
         orderTime: new Date().toLocaleString('vi-VN')
     };
 
-    // Submit to Google Apps Script
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams(orderData)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            // Show success modal
-            showSuccessModal(orderData, result.orderId);
-        } else {
-            throw new Error(result.error || 'Không thể gửi đơn hàng');
-        }
-    })
-    .catch(error => {
-        console.error('Error submitting order:', error);
-        showMessage(`❌ Lỗi gửi đơn hàng: ${error.message}`, 'error');
-        submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
-        submitBtn.disabled = false;
+    console.log("Form data:", data);
+
+    Object.keys(data).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = data[key];
+        form.appendChild(input);
     });
+
+    document.body.appendChild(form);
+    form.submit();
+
+    // Show success message after short delay
+    setTimeout(() => {
+        showSuccessModal(data, Math.floor(Math.random() * 1000));
+        document.body.removeChild(form);
+    }, 2000);
 }
+
 
 
 // Show success modal with simplified order details
