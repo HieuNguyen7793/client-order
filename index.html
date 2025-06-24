@@ -3,520 +3,668 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Cà Menu & Order</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
-
+    <title>La Cà Beverage - Đặt món</title>
     <style>
-        :root {
-            --primary-color: #5C6BC0; /* Màu chủ đạo: Tím xanh */
-            --accent-color: #E91E63; /* Màu nhấn: Hồng */
-            --background-color: #f8f9fa; /* Nền sáng */
-            --card-background: #ffffff; /* Nền thẻ/khối */
-            --text-color: #343a40; /* Màu chữ chính */
-            --light-text-color: #6c757d; /* Màu chữ phụ */
-            --border-color: #dee2e6; /* Màu viền */
-            --shadow-light: 0 4px 15px rgba(0,0,0,0.08); /* Bóng nhẹ */
-            --shadow-hover: 0 6px 20px rgba(0,0,0,0.12); /* Bóng khi hover */
-        }
-
         body {
-            font-family: 'Quicksand', sans-serif; /* Sử dụng Quicksand */
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            padding: 15px;
+            background-color: #f5f5f5;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                             url('https://drive.google.com/thumbnail?id=1TO1R8pEPbEi6k7wLnhGkR99caBBtELmg&sz=w1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 900px; /* Giữ nguyên max-width cho desktop */
-            margin: 20px auto; /* Thêm margin top/bottom cho khoảng trống */
-            background: var(--card-background);
-            padding: 25px;
-            border-radius: 12px; /* Bo góc mềm mại hơn */
-            box-shadow: var(--shadow-light);
-            transition: box-shadow 0.3s ease;
-        }
-        .container:hover {
-            box-shadow: var(--shadow-hover);
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        h1, h2 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
         h1 {
-            font-size: 2.2em;
-        }
-        h2 {
-            font-size: 1.6em;
-            margin-top: 0;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        p.instruction-text, p.important-message { /* Gộp style chung cho các đoạn văn bản này */
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-section h2 {
+            color: #e74c3c;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 3px;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        .menu-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
             text-align: center;
+            background: rgba(249, 249, 249, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            min-height: 60px; /* Đảm bảo đủ chiều cao cho item không có ảnh */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Căn giữa nội dung theo chiều ngang */
+        }
+
+        .menu-item:hover {
+            background: rgba(232, 245, 232, 0.95);
+            border-color: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .menu-item.selected {
+            background: rgba(212, 237, 218, 0.95);
+            border-color: #27ae60;
+            border-width: 2px;
+            box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 3px;
+            font-size: 0.9rem;
+        }
+
+        .item-price {
+            color: #e74c3c;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        /* Thêm style cho ảnh thumbnail nếu có */
+        .menu-item img {
+            max-width: 100px; /* Kích thước tối đa cho ảnh */
+            max-height: 100px; /* Kích thước tối đa cho ảnh */
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 4px; /* Bo tròn góc ảnh */
+            object-fit: cover; /* Đảm bảo ảnh hiển thị đẹp trong khung */
+        }
+
+        .cart-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(248, 249, 250, 0.95);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cart-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
             margin-bottom: 15px;
         }
-        p.instruction-text {
-            font-style: italic;
-            color: var(--light-text-color);
-            font-size: 0.95em;
-        }
-        p.important-message {
-            font-weight: bold;
-            color: var(--accent-color);
-            padding: 8px 0;
-            background-color: rgba(233, 30, 99, 0.05);
-            border-radius: 5px;
-            font-size: 1em;
-            margin-top: 10px; /* Điều chỉnh lại margin top cho đẹp hơn */
+
+        .cart-items {
+            min-height: 40px;
+            margin-bottom: 12px;
+            max-height: 150px;
+            overflow-y: auto;
         }
 
-        /* Vẫn giữ nguyên cấu trúc zoom của bạn */
-        #zoom-wrapper {
-            /* Có thể thêm border hoặc shadow cho wrapper nếu muốn */
-        }
-
-        /* Điều chỉnh chiều cao của div chứa ảnh đã scale */
-        .image-scaled-wrapper {
-            position: relative;
-            /* Chiều cao tính toán lại: 1920px (chiều cao gốc) * 0.3333 (scale) = ~640px */
-            height: 640px; 
-            overflow: hidden; /* Đảm bảo nội dung bị cắt nếu tràn */
-            border: 1px solid var(--border-color); /* Viền cho khung ảnh */
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 15px; /* Giảm khoảng cách dưới ảnh */
-        }
-
-        .image-scaled-wrapper img {
-            /* Giữ nguyên thuộc tính transform và origin để đảm bảo map hoạt động */
-            transform: scale(0.3333); /* Điều chỉnh scale cho ảnh 1080x1920px */
-            transform-origin: top left; 
-            position: absolute;
-            top: 0;
-            left: 0;
-            /* Kích thước width/height của ảnh sẽ là kích thước gốc để scale */
-            width: 1080px; /* Kích thước gốc của ảnh Menu2106.png */
-            height: 1920px; /* Kích thước gốc của ảnh Menu2106.png */
-            object-fit: contain; /* Đảm bảo ảnh vừa khung mà không bị cắt */
-            cursor: pointer;
-        }
-
-        /* Phần tóm tắt đơn hàng */
-        #order-summary {
-            margin-top: 15px; /* Giảm khoảng cách trên */
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            background-color: var(--background-color); /* Nền tổng kết đơn hàng */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        #order-summary h2 { 
-            color: var(--primary-color); 
-            margin-bottom: 15px; 
-            text-align: left;
-        }
-        #order-list-client {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        #order-list-client li {
+        .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px dashed var(--border-color);
-            font-size: 0.95em;
-        }
-        #order-list-client li:last-child { 
-            border-bottom: none; 
-            margin-bottom: 10px;
-        }
-        .remove-button { 
-            background-color: #dc3545;
-            color: white; 
-            border: none; 
-            padding: 5px 10px; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            font-size: 0.8em; 
-            margin-left: 10px;
-            transition: background-color 0.2s ease;
-        }
-        .remove-button:hover { 
-            background-color: #c82333; 
-        }
-        .total-client { 
-            font-weight: 700;
-            font-size: 1.2em; 
-            color: var(--accent-color); 
-            text-align: right; 
-            margin-top: 15px; 
-            padding-top: 10px;
-            border-top: 1px solid var(--border-color);
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
         }
 
-        /* Thông tin khách hàng và nút gửi */
-        .customer-info { 
-            margin-top: 25px; 
-            padding-top: 20px; 
-            border-top: 1px solid var(--border-color); 
+        .cart-item:last-child {
+            border-bottom: none;
         }
-        .customer-info label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 500;
-            color: var(--primary-color); 
-            font-size: 0.95em;
+
+        .remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
         }
-        .customer-info input, 
-        .customer-info textarea {
-            width: calc(100% - 20px);
-            padding: 12px;
-            margin-bottom: 18px;
-            border: 1px solid var(--border-color);
+
+        .remove-btn:hover {
+            background: #c0392b;
+        }
+
+        .total-section {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: right;
+            margin-bottom: 15px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 8px;
-            font-size: 1em;
-            color: var(--text-color);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .customer-info input:focus, 
-        .customer-info textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.2);
-            outline: none;
+
+        .form-group {
+            margin-bottom: 12px;
         }
-        .customer-info textarea {
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .form-group textarea {
+            height: 60px;
             resize: vertical;
         }
 
-        .submit-order-button {
-            background-color: var(--primary-color);
+        .submit-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: white;
-            padding: 15px 25px;
+            padding: 12px 25px;
             border: none;
             border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 700;
             width: 100%;
-            transition: background-color 0.3s ease, transform 0.1s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
         }
-        .submit-order-button:hover { 
-            background-color: #4CAF50; /* Màu xanh lá cây khi hover */
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #219a52, #27ae60);
             transform: translateY(-2px);
-        }
-        .submit-order-button:active {
-            transform: translateY(0);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
         }
 
-        .message { 
-            text-align: center; 
-            margin-top: 20px; 
+        .submit-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .error-message {
+            background: rgba(248, 215, 218, 0.95);
+            color: #721c24;
             padding: 10px;
-            border-radius: 5px;
-            font-weight: bold; 
-            display: none;
-        }
-        .message.success { 
-            color: #155724; 
-            background-color: #d4edda; 
-            border: 1px solid #c3e6cb;
-        }
-        .message.error-message { /* Đổi từ .error sang .error-message cho nhất quán */
-            color: #721c24; 
-            background-color: #f8d7da; 
+            border-radius: 6px;
+            margin: 8px 0;
             border: 1px solid #f5c6cb;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
         }
 
-        /* MEDIA QUERIES cho responsive */
+        .success-message {
+            background: rgba(212, 237, 218, 0.95);
+            color: #155724;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border: 1px solid #c3e6cb;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive design */
         @media (max-width: 768px) {
-            .container {
-                margin: 0;
-                padding: 15px;
-                border-radius: 0;
-                box-shadow: none;
-            }
             body {
-                background-color: var(--card-background);
-            }
-            h1 {
-                font-size: 1.8em; /* Nhỏ hơn trên điện thoại */
-                margin-bottom: 15px;
-                /* THÊM: Giới hạn độ rộng và căn giữa */
-                max-width: 360px; /* Phù hợp với chiều rộng ảnh đã scale */
-                margin-left: auto;
-                margin-right: auto;
-            }
-            h2 {
-                font-size: 1.4em;
-                margin-bottom: 10px;
-            }
-            p.instruction-text, p.important-message {
-                font-size: 0.85em; /* Nhỏ hơn một chút */
-                margin-bottom: 10px; /* Giảm margin bottom */
-                /* THÊM: Giới hạn độ rộng và căn giữa */
-                max-width: 360px; /* Phù hợp với chiều rộng ảnh đã scale */
-                margin-left: auto;
-                margin-right: auto;
-            }
-            p.important-message {
-                padding: 6px 0;
-            }
-
-            /* Điều chỉnh lại kích thước cho div chứa ảnh trên điện thoại */
-            .image-scaled-wrapper {
-                height: 640px; 
-                border: none; /* Bỏ viền trên mobile cho gọn */
-                border-radius: 0;
-                box-shadow: none;
-                margin-bottom: 10px; /* Giảm khoảng cách dưới ảnh trên mobile */
-            }
-            .image-scaled-wrapper img {
-                transform: scale(0.3333); /* Giữ nguyên scale để map vẫn hoạt động */
-            }
-
-            #order-summary {
-                padding: 15px;
-                border-radius: 0;
-                box-shadow: none;
-                margin-top: 10px; /* Giảm margin top trên mobile */
-            }
-            #order-list-client li {
-                font-size: 0.9em; /* Kích thước chữ nhỏ hơn trong danh sách */
-                padding: 8px 0;
-            }
-            .remove-button {
-                padding: 4px 8px;
-                font-size: 0.75em;
-            }
-            .total-client {
-                font-size: 1.1em;
-                margin-top: 10px;
-                padding-top: 8px;
-            }
-            .customer-info {
-                margin-top: 20px;
-                padding-top: 15px;
-            }
-            .customer-info label {
-                font-size: 0.9em;
-                margin-bottom: 6px;
-            }
-            .customer-info input, 
-            .customer-info textarea {
                 padding: 10px;
-                margin-bottom: 15px;
-                font-size: 0.95em;
             }
-            .submit-order-button {
-                padding: 12px 20px;
-                font-size: 1em;
+
+            .container {
+                padding: 15px;
             }
-            .message {
-                font-size: 0.9em;
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .menu-item {
                 padding: 8px;
+                min-height: 50px;
             }
+
+            .item-name {
+                font-size: 0.8rem;
+            }
+
+            .item-price {
+                font-size: 0.9rem;
+            }
+
+            .menu-section h2 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .menu-item {
+                min-height: 45px;
+                padding: 6px;
+            }
+
+            .item-name {
+                font-size: 0.75rem;
+            }
+
+            .item-price {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Scrollbar styling cho cart items */
+        .cart-items::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cart-items::-webkit-scrollbar-track {
+            background: rgba(241, 241, 241, 0.5);
+            border-radius: 3px;
+        }
+
+        .cart-items::-webkit-scrollbar-thumb {
+            background: rgba(196, 196, 196, 0.8);
+            border-radius: 3px;
+        }
+
+        .cart-items::-webkit-scrollbar-thumb:hover {
+            background: rgba(170, 170, 170, 0.9);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>La Cà Menu</h1>
-        <p class="important-message">Vui lòng nhập SỐ BÀN của bạn để chúng tôi phục vụ nhanh chóng!</p>
-        <p class="instruction-text">Chạm vào món bạn muốn để thêm vào giỏ hàng!</p>
+        <h1>🍹 La Cà Beverage</h1>
 
-        <div id="zoom-wrapper">
-            <div class="image-scaled-wrapper">
-                <img src="Menu2106.png" usemap="#image-map" width="1080" height="1920" alt="La Ca Menu">
+        <div id="dynamic-menu-container"></div>
+        
+        <div class="cart-section">
+            <div class="cart-header">🛒 Giỏ hàng</div>
+            <div class="cart-items" id="cartItems">
+                <p style="color: #666; font-style: italic;">Chưa có món nào trong giỏ hàng</p>
             </div>
-        </div>
-
-<map name="image-map">
-  <area shape="rect" coords="30,265,262,473" title="Cafe Đen Đá" alt="Cafe Đen Đá" onclick="addToClientOrder('Cafe Đen Đá', 25)">
-  <area shape="rect" coords="280,264,512,472" title="Cafe Nâu Đá" alt="Cafe Nâu Đá" onclick="addToClientOrder('Cafe Nâu Đá', 25)">
-  <area shape="rect" coords="30,490,262,698" title="Bạc xỉu" alt="Bạc xỉu" onclick="addToClientOrder('Bạc xỉu', 25)">
-  <area shape="rect" coords="280,491,510,696" title="Kem muối" alt="Kem muối" onclick="addToClientOrder('Kem muối', 30)">
-  <area shape="rect" coords="577,265,806,472" title="Nước ép Cam" alt="Nước ép Cam" onclick="addToClientOrder('Nước ép Cam', 25)">
-  <area shape="rect" coords="827,265,1058,472" title="Cam Carrot" alt="Cam Carrot" onclick="addToClientOrder('Cam Carrot', 25)">
-  <area shape="rect" coords="576,488,806,698" title="Dưa hấu" alt="Dưa hấu" onclick="addToClientOrder('Dưa hấu', 25)">
-  <area shape="rect" coords="827,490,1058,696" title="Cam Dứa" alt="Cam Dứa" onclick="addToClientOrder('Cam Dứa', 25)">
-  <area shape="rect" coords="55,812,284,1020" title="Trà Hoa quả Nhiệt đới" alt="Trà Hoa quả Nhiệt đới" onclick="addToClientOrder('Trà Hoa quả Nhiệt đới', 30)">
-  <area shape="rect" coords="302,816,532,1025" title="Trà Xoài Chanh leo" alt="Trà Xoài Chanh leo" onclick="addToClientOrder('Trà Xoài Chanh leo', 30)">
-  <area shape="rect" coords="551,808,783,1025" title="Trà Quýt" alt="Trà Quýt" onclick="addToClientOrder('Trà Quýt', 30)">
-  <area shape="rect" coords="795,817,1020,1021" title="Trà Mãng cầu" alt="Trà Mãng cầu" onclick="addToClientOrder('Trà Mãng cầu', 30)">
-  <area shape="rect" coords="57,1041,281,1247" title="Trà Chanh" alt="Trà Chanh" onclick="addToClientOrder('Trà Chanh', 15)">
-  <area shape="rect" coords="300,1041,532,1246" title="Trà Dâu Việt quất" alt="Trà Dâu Việt quất" onclick="addToClientOrder('Trà Dâu Việt quất', 30)">
-  <area shape="rect" coords="551,1041,780,1246" title="Trà Sen vàng" alt="Trà Sen vàng" onclick="addToClientOrder('Trà Sen vàng', 30)">
-  <area shape="rect" coords="796,1041,1026,1246" title="Trà Dứa" alt="Trà Dứa" onclick="addToClientOrder('Trà Dứa', 30)">
-  <area shape="rect" coords="98,1278,435,1331" title="Trà Sữa Truyền Thống" alt="Trà Sữa Truyền Thống" onclick="addToClientOrder('Trà Sữa Truyền Thống', 25)">
-  <area shape="rect" coords="16,1357,174,1590" title="Trà Sữa Kem mặn" alt="Trà Sữa Kem mặn" onclick="addToClientOrder('Trà Sữa Kem mặn', 30)">
-  <area shape="rect" coords="183,1358,341,1589" title="Trà Sữa Sương Sáo" alt="Trà Sữa Sương Sáo" onclick="addToClientOrder('Trà Sữa Sương Sáo', 30)">
-  <area shape="rect" coords="351,1358,510,1590" title="Matcha" alt="Matcha" onclick="addToClientOrder('Matcha', 30)">
-  <area shape="rect" coords="541,1352,659,1590" title="Sữa chua lắc -Xoài" alt="Sữa chua lắc -Xoài" onclick="addToClientOrder('Sữa chua lắc - Xoài', 30)">
-  <area shape="rect" coords="808,1352,926,1607" title="Sữa chua lắc - Việt quất" alt="Sữa chua lắc - Việt quất" onclick="addToClientOrder('Sữa chua lắc - Việt quất', 30)">
-  <area shape="rect" coords="673,1352,791,1608" title="Sữa chua lắc - Blue Sky" alt="Sữa chua lắc - Blue Sky" onclick="addToClientOrder('Sữa chua lắc - Blue Sky', 30)">
-  <area shape="rect" coords="943,1351,1060,1607" title="Sữa chua lắc - Dưa lưới" alt="Sữa chua lắc - Dưa lưới" onclick="addToClientOrder('Sữa chua lắc - Dưa lưới', 30)">
-  <area shape="rect" coords="84,1708,450,1752" title="Hướng Dương" alt="Hướng Dương" onclick="addToClientOrder('Hướng Dương', 10)">
-  <area shape="rect" coords="83,1755,451,1877" title="Khô Bò/Gà/Heo" alt="Khô Bò/Gà/Heo" onclick="addToClientOrder('Khô Bò/Gà/Heo', 25)">
-  <area shape="rect" coords="682,1715,1022,1752" title="Topping - Nha Đam" alt="Topping - Nha Đam" onclick="addToClientOrder('Nha Đam', 5)">
-  <area shape="rect" coords="667,1755,1022,1790" title="Topping - Trân Châu" alt="Topping - Trân Châu" onclick="addToClientOrder('Trân Châu', 5)">
-  <area shape="rect" coords="586,1793,1022,1831" title="Topping - Hạt nổ" alt="Topping - Hạt nổ" onclick="addToClientOrder('Thạch nổ', 5)">
-  <area shape="rect" coords="609,1837,1023,1871" title="Topping - Sương sáo" alt="Topping - Sương sáo" onclick="addToClientOrder('Sương Sáo', 5)">
-</map>
-
-
-        <div id="order-summary">
-            <h2>Đơn hàng của bạn</h2>
-            <ul id="order-list-client">
-            </ul>
-            <p class="total-client">Tổng cộng: <span id="total-client-display">0</span>K</p>
-
-            <div class="customer-info">
-                <label for="customer-name-input">Tên bạn (hoặc số bàn):</label>
-                <input type="text" id="customer-name-input" placeholder="Ví dụ: Bàn 5" required>
-
-                <label for="notes-input">Ghi chú (tùy chọn):</label>
-                <textarea id="notes-input" rows="3" placeholder="Ví dụ: ít đường, nhiều đá..."></textarea>
-
-                <button class="submit-order-button" onclick="submitOrder()">Gửi đơn hàng</button>
-                <p id="order-message" class="message" style="display: none;"></p>
+            <div class="total-section">
+                Tổng cộng: <span id="totalAmount">0</span>K
             </div>
+
+            <div class="form-group">
+                <label for="customerName">Tên khách hàng / Số bàn *</label>
+                <input type="text" id="customerName" placeholder="Ví dụ: Nguyễn Văn A hoặc Bàn 5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Ghi chú (tùy chọn)</label>
+                <textarea id="notes" placeholder="Ghi chú đặc biệt (ít đường, nhiều đá, v.v...)"></textarea>
+            </div>
+
+            <button class="submit-btn" onclick="submitOrder()" id="submitBtn">
+                Gửi đơn hàng
+            </button>
+
+            <div id="message"></div>
         </div>
     </div>
 
     <script>
-        let clientOrder = [];
-        const orderListClient = document.getElementById('order-list-client');
-        const totalClientDisplay = document.getElementById('total-client-display');
-        const customerNameInput = document.getElementById('customer-name-input');
-        const notesInput = document.getElementById('notes-input');
-        const orderMessage = document.getElementById('order-message');
+        // URL Google Apps Script Web App (GIỮ NGUYÊN)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqpd2Pt2DFrEmiCxPvosEF_QC-SbBrPc1HbB_JW-bOsm_AA9zmh7hETwX9x4pZRWHtlQ/exec';
 
-        // URL của Google Apps Script Web App (sẽ tạo ở Bước 3)
-        // **THAY THẾ BẰNG URL CỦA BẠN SAU KHI TRIỂN KHAI APP SCRIPT**
-        const GOOGLE_APP_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxHS_NyU4uGelMhvBQOm6v9e_TrD10tyhY3Cw54gs4QUC_rsLyhOdP41cGQkcUT49GsJQ/exec'; 
+        // URL của Google Sheet đã xuất bản (ĐÃ KIỂM TRA LẠI)
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSv_PxGRr5CBEBhqfDB5C4qyMkERf6OMa2mKHQRadetWH4FJtf_pV7lEoggCM0BXBurpc93HfP2lFRs/pub?gid=0&single=true&output=csv';
 
-        // Hàm được gọi khi click vào các vùng trên ảnh
-        function addToClientOrder(name, price) {
-            clientOrder.push({ name, price });
-            updateClientOrderList();
-            showMessage(`Đã thêm ${name} vào giỏ hàng!`, 'success');
-        }
+        // Biến giỏ hàng (GIỮ NGUYÊN)
+        let cart = [];
+        let totalAmount = 0;
 
-        function removeGroupedItem(itemName) {
-            clientOrder = clientOrder.filter(item => item.name !== itemName);
-            updateClientOrderList();
-        }
+        // Function thêm món vào giỏ hàng (GIỮ NGUYÊN)
+        function addToCart(itemName, itemPrice) {
+            cart.push({
+                name: itemName,
+                price: itemPrice
+            });
+            totalAmount += itemPrice;
+            updateCartDisplay();
 
-        function updateClientOrderList() {
-            orderListClient.innerHTML = '';
-            let total = 0;
-
-            const groupedItems = {};
-            clientOrder.forEach(item => {
-                if (groupedItems[item.name]) {
-                    groupedItems[item.name].quantity++;
-                    groupedItems[item.name].totalPrice += item.price;
-                } else {
-                    groupedItems[item.name] = {
-                        name: item.name,
-                        quantity: 1,
-                        unitPrice: item.price,
-                        totalPrice: item.price
-                    };
+            // Hiệu ứng visual (GIỮ NGUYÊN)
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                // Kiểm tra bằng textContent để tìm đúng món đã click, cẩn thận với trùng tên
+                // Cần đảm bảo item.name trong HTML khớp với itemName truyền vào
+                const itemNameElement = item.querySelector('.item-name');
+                if (itemNameElement && itemNameElement.textContent === itemName) {
+                    item.classList.add('selected');
+                    setTimeout(() => {
+                        item.classList.remove('selected');
+                    }, 300);
                 }
             });
 
-            if (Object.keys(groupedItems).length === 0) {
-                const emptyMessage = document.createElement('li');
-                emptyMessage.textContent = 'Giỏ hàng trống.';
-                emptyMessage.style.textAlign = 'center';
-                emptyMessage.style.color = 'var(--light-text-color)';
-                orderListClient.appendChild(emptyMessage);
+            console.log(`Đã thêm ${itemName} - ${itemPrice}K vào giỏ hàng`);
+        }
+
+        // Function cập nhật hiển thị giỏ hàng (GIỮ NGUYÊN)
+        function updateCartDisplay() {
+            const cartItemsElement = document.getElementById('cartItems');
+            const totalElement = document.getElementById('totalAmount');
+
+            if (cart.length === 0) {
+                cartItemsElement.innerHTML = '<p style="color: #666; font-style: italic;">Chưa có món nào trong giỏ hàng</p>';
             } else {
-                Object.values(groupedItems).forEach((item, index) => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <span>${item.name} x${item.quantity}</span>
-                        <span>${item.totalPrice}K <button class="remove-button" onclick="removeGroupedItem('${item.name}')">Xóa</button></span>
-                    `;
-                    orderListClient.appendChild(li);
+                // Group items theo tên (GIỮ NGUYÊN)
+                const groupedItems = {};
+                cart.forEach(item => {
+                    if (groupedItems[item.name]) {
+                        groupedItems[item.name].quantity++;
+                        groupedItems[item.name].totalPrice += item.price;
+                    } else {
+                        groupedItems[item.name] = {
+                            name: item.name,
+                            quantity: 1,
+                            unitPrice: item.price,
+                            totalPrice: item.price
+                        };
+                    }
                 });
+
+                cartItemsElement.innerHTML = Object.values(groupedItems).map(item =>
+                    `<div class="cart-item">
+                        <span>${item.name} x${item.quantity} - ${item.totalPrice}K</span>
+                        <button class="remove-btn" onclick="removeFromCart('${item.name}')">Xóa</button>
+                    </div>`
+                ).join('');
             }
-            
-            total = clientOrder.reduce((sum, item) => sum + item.price, 0);
-            totalClientDisplay.textContent = total;
+
+            totalElement.textContent = totalAmount;
         }
 
-        async function submitOrder() {
-            if (clientOrder.length === 0) {
-                showMessage('Vui lòng chọn món trước khi gửi đơn hàng!', 'error-message');
-                return;
-            }
-
-            const customerName = customerNameInput.value.trim();
-            if (customerName === '') {
-                showMessage('Vui lòng nhập tên bạn hoặc số bàn!', 'error-message');
-                return;
-            }
-
-            const submitButton = document.querySelector('.submit-order-button');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Đang gửi...';
-
-            const orderDetails = {
-                customerName: customerName,
-                notes: notesInput.value.trim(),
-                items: clientOrder.map(item => ({name: item.name, price: item.price})), // Giữ nguyên định dạng này
-                total: parseInt(totalClientDisplay.textContent),
-                orderTime: new Date().toLocaleString('vi-VN', {
-                    hour: '2-digit', minute: '2-digit', second: '2-digit',
-                    day: '2-digit', month: '2-digit', year: 'numeric'
-                })
-            };
-
-            try {
-                const response = await fetch(GOOGLE_APP_SCRIPT_WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', 
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(orderDetails)
-                });
-
-                showMessage('Đơn hàng của bạn đã được gửi thành công!', 'success');
-
-                clientOrder = [];
-                updateClientOrderList();
-                customerNameInput.value = '';
-                notesInput.value = '';
-
-            } catch (error) {
-                console.error('Lỗi khi gửi đơn hàng:', error);
-                showMessage('Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại!', 'error-message');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Gửi đơn hàng';
+        // Function xóa món khỏi giỏ hàng (GIỮ NGUYÊN)
+        function removeFromCart(itemName) {
+            // Tìm và xóa chỉ một lần xuất hiện của món hàng
+            const index = cart.findIndex(item => item.name === itemName);
+            if (index !== -1) {
+                totalAmount -= cart[index].price; // Giảm tổng tiền theo giá của món bị xóa
+                cart.splice(index, 1); // Xóa món đó khỏi mảng giỏ hàng
+                updateCartDisplay();
+                showMessage(`Đã xóa ${itemName} khỏi giỏ hàng`, 'success');
             }
         }
 
-        function showMessage(msg, type) {
-            orderMessage.textContent = msg;
-            orderMessage.className = 'message ' + type;
-            orderMessage.style.display = 'block';
+        // Function hiển thị thông báo (GIỮ NGUYÊN)
+        function showMessage(message, type = 'error') {
+            const messageElement = document.getElementById('message');
+            messageElement.innerHTML = `<div class="${type}-message">${message}</div>`;
+
             setTimeout(() => {
-                orderMessage.style.display = 'none';
+                messageElement.innerHTML = '';
             }, 5000);
         }
-        
-        // Gọi hàm này khi tải trang để hiển thị "Giỏ hàng trống" nếu chưa có gì
-        updateClientOrderList(); 
+
+        // Function gửi đơn hàng (GIỮ NGUYÊN)
+        function submitOrder() {
+            const customerName = document.getElementById('customerName').value;
+            const notes = document.getElementById('notes').value;
+            const submitBtn = document.getElementById('submitBtn');
+
+            // Validation (GIỮ NGUYÊN)
+            if (!customerName.trim()) {
+                showMessage('Vui lòng nhập tên khách hàng!', 'error');
+                return;
+            }
+
+            if (cart.length === 0) {
+                showMessage('Vui lòng chọn ít nhất một món!', 'error');
+                return;
+            }
+
+            // Hiển thị loading (GIỮ NGUYÊN)
+            submitBtn.textContent = 'Đang gửi...';
+            submitBtn.disabled = true;
+
+            console.log("Preparing to submit order...");
+            console.log("Cart items:", cart);
+            console.log("Customer name:", customerName);
+            console.log("Total:", totalAmount);
+
+            // Tạo form thật sự submit (sẽ redirect sang trang kết quả) (GIỮ NGUYÊN)
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = SCRIPT_URL;
+            form.target = '_blank'; // Mở tab mới để xem kết quả
+
+            // Thêm dữ liệu vào form (GIỮ NGUYÊN)
+            const data = {
+                customerName: customerName.trim(),
+                notes: notes.trim(),
+                items: JSON.stringify(cart),
+                total: totalAmount,
+                orderTime: new Date().toLocaleString('vi-VN')
+            };
+
+            console.log("Form data:", data);
+
+            Object.keys(data).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+
+            // Thông báo và reset (GIỮ NGUYÊN)
+            showMessage('🎉 Đã gửi đơn hàng! Kiểm tra tab mới để xem kết quả.', 'success');
+
+            // Reset form sau 2 giây (GIỮ NGUYÊN)
+            setTimeout(() => {
+                cart = [];
+                totalAmount = 0;
+                updateCartDisplay();
+                document.getElementById('customerName').value = '';
+                document.getElementById('notes').value = '';
+
+                submitBtn.textContent = 'Gửi đơn hàng';
+                submitBtn.disabled = false;
+
+                document.body.removeChild(form);
+            }, 2000);
+        }
+
+        // --- BẮT ĐẦU CÁC HÀM MỚI ĐỂ XỬ LÝ MENU ĐỘNG TỪ GOOGLE SHEET ---
+
+        // Function để phân tích cú pháp CSV
+        function csvToJson(csv) {
+            const lines = csv.split('\n');
+            // Lấy tiêu đề, loại bỏ khoảng trắng và filter để loại bỏ các tiêu đề trống
+            const headers = lines[0].split(',').map(header => header.trim()).filter(header => header !== '');
+            const result = [];
+
+            // Bắt đầu từ dòng thứ 2 (chỉ mục 1) vì dòng đầu tiên là tiêu đề
+            for (let i = 1; i < lines.length; i++) {
+                const obj = {};
+                const currentLine = lines[i].split(',');
+                // Chỉ xử lý nếu dòng không rỗng (tránh dòng trống cuối file CSV)
+                if (currentLine.length > 1 && currentLine.some(cell => cell.trim() !== '')) {
+                    for (let j = 0; j < headers.length; j++) {
+                        // Xử lý giá trị rỗng và bỏ khoảng trắng
+                        obj[headers[j]] = currentLine[j] ? currentLine[j].trim() : '';
+                    }
+                    result.push(obj);
+                }
+            }
+            return result;
+        }
+
+        // Function để tạo HTML cho menu từ dữ liệu
+        function renderMenu(menuData) {
+            const dynamicMenuContainer = document.getElementById('dynamic-menu-container'); // Lấy container rỗng đã thêm vào HTML
+            dynamicMenuContainer.innerHTML = ''; // Xóa bất kỳ nội dung cũ nào (nếu có)
+
+            // Nhóm các món theo category
+            const groupedMenu = menuData.reduce((acc, item) => {
+                // Đảm bảo tên danh mục không rỗng và tồn tại
+                const category = item.category && item.category.trim() !== '' ? item.category.trim() : 'Món Khác';
+                if (!acc[category]) {
+                    acc[category] = [];
+                }
+                acc[category].push(item);
+                return acc;
+            }, {});
+
+            // Tạo HTML cho từng category
+            for (const category in groupedMenu) {
+                const section = document.createElement('div');
+                section.classList.add('menu-section');
+
+                const h2 = document.createElement('h2');
+                h2.textContent = category; // Sử dụng tên danh mục từ sheet
+                section.appendChild(h2);
+
+                const grid = document.createElement('div');
+                grid.classList.add('menu-grid');
+
+                groupedMenu[category].forEach(item => {
+                    const menuItem = document.createElement('div');
+                    menuItem.classList.add('menu-item');
+                    
+                    // Sử dụng onclick như bạn yêu cầu
+                    // Đảm bảo item.name và item.price có giá trị hợp lệ
+                    if (item.name && item.price && !isNaN(parseInt(item.price))) {
+                        menuItem.setAttribute('onclick', `addToCart('${item.name.replace(/'/g, "\\'")}', ${parseInt(item.price)})`);
+                    } else {
+                        // Log lỗi nếu dữ liệu không hợp lệ để dễ debug
+                        console.error('Dữ liệu món ăn không hợp lệ:', item);
+                        menuItem.style.backgroundColor = '#ffe0e0'; // Highlight món lỗi
+                        menuItem.style.pointerEvents = 'none'; // Không cho click
+                    }
+
+                    const nameDiv = document.createElement('div');
+                    nameDiv.classList.add('item-name');
+                    nameDiv.textContent = item.name || 'Không tên'; // Hiển thị 'Không tên' nếu rỗng
+                    menuItem.appendChild(nameDiv);
+
+                    const priceDiv = document.createElement('div');
+                    priceDiv.classList.add('item-price');
+                    priceDiv.textContent = `${item.price || '0'}K`; // Hiển thị '0' nếu rỗng
+                    menuItem.appendChild(priceDiv);
+
+                    grid.appendChild(menuItem);
+                });
+
+                section.appendChild(grid);
+                dynamicMenuContainer.appendChild(section); // Thêm section vào container động
+            }
+        }
+
+        // Initialize khi trang load (ĐÃ THAY ĐỔI ĐỂ TẢI MENU ĐỘNG)
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Đang tải menu từ Google Sheet...');
+            fetch(SHEET_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        // Log lỗi HTTP chi tiết hơn
+                        console.error(`Lỗi HTTP: Status ${response.status} - ${response.statusText}`);
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(csv => {
+                    console.log('Đã nhận CSV:', csv.substring(0, 200) + '...'); // Log một phần CSV để kiểm tra
+                    const menuData = csvToJson(csv);
+                    console.log('Dữ liệu menu sau csvToJson:', menuData);
+
+                    // Lọc bỏ các mục không hợp lệ hoặc rỗng
+                    const filteredMenuData = menuData.filter(item => 
+                        item.name && item.name.trim() !== '' && 
+                        item.price && !isNaN(parseInt(item.price))
+                    );
+                    console.log('Dữ liệu menu đã lọc:', filteredMenuData);
+
+                    if (filteredMenuData.length > 0) {
+                        renderMenu(filteredMenuData);
+                    } else {
+                        showMessage('Không tìm thấy món nào hợp lệ trong Google Sheet. Vui lòng kiểm tra tên cột (name, price, category) và dữ liệu.', 'error');
+                        console.warn('MenuData rỗng hoặc không có món hợp lệ. Vui lòng kiểm tra cấu trúc sheet và dữ liệu.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tải hoặc xử lý dữ liệu từ Google Sheet:', error);
+                    // Thông báo lỗi chi tiết hơn cho người dùng
+                    if (error.message.includes('HTTP error!')) {
+                        showMessage(`Không thể tải menu. Lỗi mạng hoặc cấu hình Google Sheet. Chi tiết: ${error.message}`, 'error');
+                    } else if (error.message.includes('Failed to fetch')) {
+                         showMessage('Không thể tải menu. Có thể do lỗi kết nối hoặc vấn đề bảo mật (CORS). Hãy thử chạy trên máy chủ web cục bộ.', 'error');
+                    } else {
+                        showMessage(`Không thể tải menu. Vui lòng kiểm tra kết nối hoặc cấu hình Google Sheet. Chi tiết: ${error.message}`, 'error');
+                    }
+                });
+
+            updateCartDisplay(); // Luôn khởi tạo hiển thị giỏ hàng
+            console.log('🍹 La Cà Beverage System loaded successfully!');
+            console.log('Script URL:', SCRIPT_URL);
+        });
+
+        //Cảnh báo có muốn rời đi khi đơn hàng đang có trong giỏ mà chưa được gửi hay không
+        window.onbeforeunload = function() {
+            if (cart.length > 0) {
+                return "Bạn có các món hàng trong giỏ. Bạn có chắc chắn muốn rời đi?";
+            }
+            return undefined;
+        };
     </script>
 </body>
 </html>
