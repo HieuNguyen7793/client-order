@@ -382,29 +382,6 @@
             line-height: 1.5;
         }
 
-        /* Payment Options */
-        .payment-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin-top: 8px;
-        }
-
-        .payment-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .payment-option:has(input:checked) {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #e8f2ff, #d6e9ff);
-        }
 
         /* Submit Button - Enhanced */
         .submit-btn {
@@ -686,72 +663,40 @@
         </div>
         
         <!-- Cart Section -->
-        <div class="cart-section">
-            <div class="cart-header">🛒 Giỏ hàng của bạn</div>
-            <div class="cart-items" id="cartItems">
-                <div class="empty-cart">
-                    <p>🍽️ Chưa có món nào trong giỏ hàng</p>
-                    <small>Hãy chọn món yêu thích từ menu bên trên</small>
-                </div>
-            </div>
-            <div class="total-section">
-                💰 Tổng cộng: <span id="totalAmount">0</span>K
-            </div>
-
-            <div class="form-group">
-                <label for="customerName">👤 Tên khách hàng / Số bàn *</label>
-                <input type="text" 
-                       id="customerName" 
-                       placeholder="VD: Nguyễn Văn A hoặc Bàn 5" 
-                       required
-                       autocomplete="name">
-            </div>
-
-            <div class="form-group">
-                <label for="tableSelect">📍 Chọn bàn (tùy chọn)</label>
-                <select id="tableSelect">
-                    <option value="">Chọn bàn...</option>
-                    <option value="Bàn 1">Bàn 1</option>
-                    <option value="Bàn 2">Bàn 2</option>
-                    <option value="Bàn 3">Bàn 3</option>
-                    <option value="Bàn 4">Bàn 4</option>
-                    <option value="Bàn 5">Bàn 5</option>
-                    <option value="Bàn 6">Bàn 6</option>
-                    <option value="Bàn 7">Bàn 7</option>
-                    <option value="Bàn 8">Bàn 8</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>💳 Phương thức thanh toán:</label>
-                <div class="payment-options">
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="cash" checked>
-                        <span>💵 Tiền mặt</span>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="momo">
-                        <span>📱 MoMo</span>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="banking">
-                        <span>🏦 Chuyển khoản</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="notes">📝 Ghi chú đặc biệt (tùy chọn)</label>
-                <textarea id="notes" 
-                          placeholder="Ít đường, nhiều đá, không cay..."></textarea>
-            </div>
-
-            <button class="submit-btn" onclick="submitOrder()" id="submitBtn">
-                🚀 Gửi đơn hàng ngay
-            </button>
-
-            <div id="message"></div>
+        <!-- Cart Section - Simplified -->
+<div class="cart-section">
+    <div class="cart-header">🛒 Giỏ hàng của bạn</div>
+    <div class="cart-items" id="cartItems">
+        <div class="empty-cart">
+            <p>🍽️ Chưa có món nào trong giỏ hàng</p>
+            <small>Hãy chọn món yêu thích từ menu bên trên</small>
         </div>
+    </div>
+    <div class="total-section">
+        💰 Tổng cộng: <span id="totalAmount">0</span>K
+    </div>
+
+    <div class="form-group">
+        <label for="customerName">👤 Tên khách hàng / Số bàn *</label>
+        <input type="text" 
+               id="customerName" 
+               placeholder="VD: Nguyễn Văn A hoặc Bàn 5" 
+               required
+               autocomplete="name">
+    </div>
+
+    <div class="form-group">
+        <label for="notes">📝 Ghi chú đặc biệt (tùy chọn)</label>
+        <textarea id="notes" 
+                  placeholder="Ít đường, nhiều đá, không cay..."></textarea>
+    </div>
+
+    <button class="submit-btn" onclick="submitOrder()" id="submitBtn">
+        🚀 Gửi đơn hàng ngay
+    </button>
+
+    <div id="message"></div>
+</div>
     </div>
 
     <!-- Success Modal -->
@@ -951,177 +896,154 @@
             }, 4000);
         }
 
-        // Enhanced submit order with modal
-        function submitOrder() {
-            const customerName = document.getElementById('customerName').value;
-            const tableSelect = document.getElementById('tableSelect').value;
-            const notes = document.getElementById('notes').value;
-            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-            const submitBtn = document.getElementById('submitBtn');
+// Enhanced submit order - simplified
+function submitOrder() {
+    const customerName = document.getElementById('customerName').value;
+    const notes = document.getElementById('notes').value;
+    const submitBtn = document.getElementById('submitBtn');
 
-            // Validation
-            if (!customerName.trim()) {
-                showMessage('⚠️ Vui lòng nhập tên khách hàng hoặc số bàn!', 'error');
-                document.getElementById('customerName').focus();
-                return;
-            }
+    // Validation
+    if (!customerName.trim()) {
+        showMessage('⚠️ Vui lòng nhập tên khách hàng hoặc số bàn!', 'error');
+        document.getElementById('customerName').focus();
+        return;
+    }
 
-            if (cart.length === 0) {
-                showMessage('⚠️ Vui lòng chọn ít nhất một món từ menu!', 'error');
-                return;
-            }
+    if (cart.length === 0) {
+        showMessage('⚠️ Vui lòng chọn ít nhất một món từ menu!', 'error');
+        return;
+    }
 
-            // Loading state
-            submitBtn.innerHTML = '⏳ Đang gửi đơn hàng...';
-            submitBtn.disabled = true;
+    // Loading state
+    submitBtn.innerHTML = '⏳ Đang gửi đơn hàng...';
+    submitBtn.disabled = true;
 
-            // Prepare order data
-            const orderData = {
-                customerName: customerName.trim(),
-                table: tableSelect || '',
-                notes: notes.trim(),
-                paymentMethod: paymentMethod,
-                items: JSON.stringify(cart),
-                total: totalAmount,
-                orderTime: new Date().toLocaleString('vi-VN')
+    // Prepare order data - simplified
+    const orderData = {
+        customerName: customerName.trim(),
+        notes: notes.trim(),
+        items: JSON.stringify(cart),
+        total: totalAmount,
+        orderTime: new Date().toLocaleString('vi-VN')
+    };
+
+    // Submit to Google Apps Script
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(orderData)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // Show success modal
+            showSuccessModal(orderData, result.orderId);
+        } else {
+            throw new Error(result.error || 'Không thể gửi đơn hàng');
+        }
+    })
+    .catch(error => {
+        console.error('Error submitting order:', error);
+        showMessage(`❌ Lỗi gửi đơn hàng: ${error.message}`, 'error');
+        submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
+        submitBtn.disabled = false;
+    });
+}
+
+
+// Show success modal with simplified order details
+function showSuccessModal(orderData, orderId) {
+    const modal = document.getElementById('successModal');
+    const orderDetailsContent = document.getElementById('orderDetailsContent');
+    
+    // Group items for display
+    const groupedItems = {};
+    JSON.parse(orderData.items).forEach(item => {
+        if (groupedItems[item.name]) {
+            groupedItems[item.name].quantity++;
+            groupedItems[item.name].totalPrice += item.price;
+        } else {
+            groupedItems[item.name] = {
+                name: item.name,
+                quantity: 1,
+                unitPrice: item.price,
+                totalPrice: item.price
             };
-
-            // Submit to Google Apps Script
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams(orderData)
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    // Show success modal instead of opening new tab
-                    showSuccessModal(orderData, result.orderId);
-                } else {
-                    throw new Error(result.error || 'Không thể gửi đơn hàng');
-                }
-            })
-            .catch(error => {
-                console.error('Error submitting order:', error);
-                showMessage(`❌ Lỗi gửi đơn hàng: ${error.message}`, 'error');
-                submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
-                submitBtn.disabled = false;
-            });
         }
+    });
 
-        // Show success modal with order details
-        function showSuccessModal(orderData, orderId) {
-            const modal = document.getElementById('successModal');
-            const orderDetailsContent = document.getElementById('orderDetailsContent');
-            
-            // Group items for display
-            const groupedItems = {};
-            JSON.parse(orderData.items).forEach(item => {
-                if (groupedItems[item.name]) {
-                    groupedItems[item.name].quantity++;
-                    groupedItems[item.name].totalPrice += item.price;
-                } else {
-                    groupedItems[item.name] = {
-                        name: item.name,
-                        quantity: 1,
-                        unitPrice: item.price,
-                        totalPrice: item.price
-                    };
-                }
-            });
+    // Generate simplified order details HTML
+    orderDetailsContent.innerHTML = `
+        <div class="detail-row">
+            <span class="detail-label">Mã đơn hàng:</span>
+            <span class="detail-value">#${orderId || Math.floor(Math.random() * 1000)}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Khách hàng:</span>
+            <span class="detail-value">${orderData.customerName}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Thời gian:</span>
+            <span class="detail-value">${orderData.orderTime}</span>
+        </div>
+        
+        <div class="order-items-detail">
+            <h4>Chi tiết:</h4>
+            ${Object.values(groupedItems).map(item => `
+                <div class="item-detail">
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>${item.totalPrice}K</span>
+                </div>
+            `).join('')}
+        </div>
+        
+        ${orderData.notes ? `
+        <div class="detail-row">
+            <span class="detail-label">Ghi chú:</span>
+            <span class="detail-value">${orderData.notes}</span>
+        </div>
+        ` : ''}
+        
+        <div class="detail-row">
+            <span class="detail-label">Tổng tiền:</span>
+            <span class="detail-value">${orderData.total}K</span>
+        </div>
+    `;
+    
+    modal.classList.add('show');
+}
 
-            // Generate order details HTML
-            orderDetailsContent.innerHTML = `
-                <div class="detail-row">
-                    <span class="detail-label">Mã đơn hàng:</span>
-                    <span class="detail-value">#${orderId || Math.floor(Math.random() * 1000)}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Khách hàng:</span>
-                    <span class="detail-value">${orderData.customerName}</span>
-                </div>
-                ${orderData.table ? `
-                <div class="detail-row">
-                    <span class="detail-label">Bàn:</span>
-                    <span class="detail-value">${orderData.table}</span>
-                </div>
-                ` : ''}
-                <div class="detail-row">
-                    <span class="detail-label">Thời gian:</span>
-                    <span class="detail-value">${orderData.orderTime}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Thanh toán:</span>
-                    <span class="detail-value">${getPaymentMethodText(orderData.paymentMethod)}</span>
-                </div>
-                
-                <div class="order-items-detail">
-                    <h4>Chi tiết:</h4>
-                    ${Object.values(groupedItems).map(item => `
-                        <div class="item-detail">
-                            <span>${item.name} x${item.quantity}</span>
-                            <span>${item.totalPrice}K</span>
-                        </div>
-                    `).join('')}
-                </div>
-                
-                ${orderData.notes ? `
-                <div class="detail-row">
-                    <span class="detail-label">Ghi chú:</span>
-                    <span class="detail-value">${orderData.notes}</span>
-                </div>
-                ` : ''}
-                
-                <div class="detail-row">
-                    <span class="detail-label">Tổng tiền:</span>
-                    <span class="detail-value">${orderData.total}K</span>
-                </div>
-            `;
-            
-            modal.classList.add('show');
-        }
 
-        function getPaymentMethodText(method) {
-            const methods = {
-                'cash': '💵 Tiền mặt',
-                'momo': '📱 MoMo',
-                'banking': '🏦 Chuyển khoản'
-            };
-            return methods[method] || '💵 Tiền mặt';
-        }
-
-        // Continue ordering
-        function continueOrdering() {
-            // Reset form and cart
-            cart = [];
-            totalAmount = 0;
-            itemQuantities = {};
-            updateCartDisplay();
-            document.getElementById('customerName').value = '';
-            document.getElementById('tableSelect').value = '';
-            document.getElementById('notes').value = '';
-            document.querySelector('input[name="payment"][value="cash"]').checked = true;
-            
-            // Reset submit button
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
-            submitBtn.disabled = false;
-            
-            // Reset all quantity displays
-            document.querySelectorAll('.quantity').forEach(qty => {
-                qty.textContent = '0';
-            });
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('has-quantity');
-            });
-            
-            // Hide modal
-            document.getElementById('successModal').classList.remove('show');
-            
-            showMessage('✨ Sẵn sàng cho đơn hàng tiếp theo!', 'success');
-        }
+  // Continue ordering - simplified reset
+function continueOrdering() {
+    // Reset form and cart
+    cart = [];
+    totalAmount = 0;
+    itemQuantities = {};
+    updateCartDisplay();
+    document.getElementById('customerName').value = '';
+    document.getElementById('notes').value = '';
+    
+    // Reset submit button
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
+    submitBtn.disabled = false;
+    
+    // Reset all quantity displays
+    document.querySelectorAll('.quantity').forEach(qty => {
+        qty.textContent = '0';
+    });
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.classList.remove('has-quantity');
+    });
+    
+    // Hide modal
+    document.getElementById('successModal').classList.remove('show');
+    
+    showMessage('✨ Sẵn sàng cho đơn hàng tiếp theo!', 'success');
+}
 
         // Exit app
         function exitApp() {
