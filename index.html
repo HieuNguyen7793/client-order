@@ -999,69 +999,75 @@
             }, 3000);
         }
 
-        // Submit order using form method
-        function submitOrder() {
-            const customerName = document.getElementById('customerName').value;
-            const notes = document.getElementById('notes').value;
-            const submitBtn = document.getElementById('submitBtn');
+// Submit order using hidden iframe - không mở cửa sổ mới
+function submitOrder() {
+    const customerName = document.getElementById('customerName').value;
+    const notes = document.getElementById('notes').value;
+    const submitBtn = document.getElementById('submitBtn');
 
-            // Validation
-            if (!customerName.trim()) {
-                showMessage('⚠️ Vui lòng nhập tên khách hàng hoặc số bàn!', 'error');
-                document.getElementById('customerName').focus();
-                return;
-            }
+    // Validation
+    if (!customerName.trim()) {
+        showMessage('⚠️ Vui lòng nhập tên khách hàng hoặc số bàn!', 'error');
+        document.getElementById('customerName').focus();
+        return;
+    }
 
-            if (cart.length === 0) {
-                showMessage('⚠️ Vui lòng chọn ít nhất một món từ menu!', 'error');
-                return;
-            }
+    if (cart.length === 0) {
+        showMessage('⚠️ Vui lòng chọn ít nhất một món từ menu!', 'error');
+        return;
+    }
 
-            // Loading state
-            submitBtn.innerHTML = '⏳ Đang gửi đơn hàng...';
-            submitBtn.disabled = true;
+    // Loading state
+    submitBtn.innerHTML = '⏳ Đang gửi đơn hàng...';
+    submitBtn.disabled = true;
 
-            console.log("Preparing to submit order...");
-            console.log("Cart items:", cart);
-            console.log("Customer name:", customerName);
-            console.log("Total:", totalAmount);
+    console.log("Preparing to submit order...");
 
-            // Form submission - không mở tab mới
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = SCRIPT_URL;
+    // 🆕 Tạo iframe ẩn để submit form
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'hiddenFrame';
+    document.body.appendChild(iframe);
 
-            const data = {
-                customerName: customerName.trim(),
-                notes: notes.trim(),
-                items: JSON.stringify(cart),
-                total: totalAmount,
-                orderTime: new Date().toLocaleString('vi-VN')
-            };
+    // Tạo form với target là iframe ẩn
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SCRIPT_URL;
+    form.target = 'hiddenFrame'; // 🎯 Submit vào iframe thay vì tab mới
+    form.style.display = 'none';
 
-            console.log("Form data:", data);
+    const data = {
+        customerName: customerName.trim(),
+        notes: notes.trim(),
+        items: JSON.stringify(cart),
+        total: totalAmount,
+        orderTime: new Date().toLocaleString('vi-VN')
+    };
 
-            Object.keys(data).forEach(key => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = data[key];
-                form.appendChild(input);
-            });
+    Object.keys(data).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = data[key];
+        form.appendChild(input);
+    });
 
-            document.body.appendChild(form);
-            form.submit();
+    document.body.appendChild(form);
+    form.submit();
 
-            // Hiển thị modal success
-            setTimeout(() => {
-                showSuccessModal(data, Math.floor(Math.random() * 1000));
-                document.body.removeChild(form);
-                
-                // Reset submit button
-                submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
-                submitBtn.disabled = false;
-            }, 1500);
-        }
+    // 🎉 Hiển thị modal success ngay lập tức
+    setTimeout(() => {
+        showSuccessModal(data, Math.floor(Math.random() * 1000));
+        
+        // Cleanup
+        document.body.removeChild(form);
+        document.body.removeChild(iframe);
+        
+        // Reset submit button
+        submitBtn.innerHTML = '🚀 Gửi đơn hàng ngay';
+        submitBtn.disabled = false;
+    }, 1000);
+}
 
         // Show success modal with order details
         function showSuccessModal(orderData, orderId) {
@@ -1389,12 +1395,12 @@
         });
 
         // Prevent accidental page leave
-        window.onbeforeunload = function() {
-            if (cart.length > 0) {
-                return "Bạn có món hàng trong giỏ. Bạn có chắc chắn muốn rời đi?";
-            }
-            return undefined;
-        };
+        // window.onbeforeunload = function() {
+        //    if (cart.length > 0) {
+        //        return "Bạn có món hàng trong giỏ. Bạn có chắc chắn muốn rời đi?";
+        //    }
+        //    return undefined;
+        // };
     </script>
 </body>
 </html>
