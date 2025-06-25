@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -95,31 +96,39 @@
             box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
         }
 
-        .filter-tabs {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
+       .filter-tabs {
+	    display: flex;
+	    gap: 6px;
+	    overflow-x: auto;
+	    padding-bottom: 4px;
+	    scrollbar-width: none; /* Firefox */
+	    -ms-overflow-style: none; /* IE/Edge */
+	}
+	.filter-tabs::-webkit-scrollbar {
+	    display: none; /* Chrome/Safari */
+	}
 
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #e9ecef;
-            background: white;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
+	.filter-btn {
+	    padding: 6px 12px;
+	    border: 2px solid #e9ecef;
+	    background: white;
+	    border-radius: 16px;
+	    font-size: 0.8rem;
+	    font-weight: 600;
+	    cursor: pointer;
+	    transition: all 0.3s ease;
+	    white-space: nowrap;
+	    flex-shrink: 0;
+	    min-width: fit-content;
+	}
 
-        .filter-btn.active,
-        .filter-btn:hover {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
-            border-color: #9b59b6;
-        }
+	.filter-btn.active,
+	.filter-btn:hover {
+	    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+	    color: white;
+	    border-color: #9b59b6;
+	    transform: translateY(-1px);
+	}
 
         /* Menu Content */
         .menu-content {
@@ -378,38 +387,40 @@
             opacity: 0.6;
         }
 
-        .quantity {
-            min-width: 32px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #e8f4f8, #d5e8f0);
-            color: #2c3e50;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            border: 1px solid #bdc3c7;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
+	 .quantity {
+	    min-width: 32px;
+	    height: 24px;
+	    display: flex !important; /* Force display */
+	    align-items: center;
+	    justify-content: center;
+	    background: linear-gradient(135deg, #e8f4f8, #d5e8f0);
+	    color: #2c3e50;
+	    border-radius: 6px;
+	    font-weight: 700;
+	    font-size: 0.9rem;
+	    border: 1px solid #bdc3c7;
+	    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+	    transition: all 0.3s ease;
+	    text-align: center;
+	}
 
-        .menu-item.has-quantity .quantity {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
-            border-color: #8e44ad;
-            font-weight: 800;
-            box-shadow: 0 2px 6px rgba(142, 68, 173, 0.4);
-        }
+	  .menu-item.has-quantity .quantity {
+	    background: linear-gradient(135deg, #9b59b6, #8e44ad) !important;
+	    color: white !important;
+	    border-color: #8e44ad;
+	    font-weight: 800;
+	    box-shadow: 0 2px 6px rgba(142, 68, 173, 0.4);
+	}
 
-        @keyframes quantityPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
+	@keyframes quantityPulse {
+	    0% { transform: scale(1); }
+	    30% { transform: scale(1.2); background: #27ae60; }
+	    70% { transform: scale(1.1); }
+	    100% { transform: scale(1); }
+	}
 
         .quantity.pulse {
-            animation: quantityPulse 0.3s ease;
+            animation: quantityPulse 0.4s ease;
         }
 
         /* Cart Section */
@@ -868,6 +879,7 @@
                 <button class="filter-btn" onclick="filterCategory('TRÀ SỮA')">🧋 Trà sữa</button>
                 <button class="filter-btn" onclick="filterCategory('NƯỚC ÉP')">🥤 Nước ép</button>
                 <button class="filter-btn" onclick="filterCategory('TRÀ')">🍃 Trà</button>
+                <button class="filter-btn" onclick="filterCategory('ĂN VẶT')">🍟 Ăn vặt</button>
             </div>
         </div>
 
@@ -965,22 +977,36 @@
         }
 
         // Filter by category
-        function filterCategory(category) {
-            const sections = document.querySelectorAll('.menu-section');
-            
-            sections.forEach(section => {
-                if (category === 'all') {
-                    section.style.display = 'block';
-                } else {
-                    const sectionTitle = section.querySelector('h2').textContent;
-                    section.style.display = sectionTitle.includes(category) ? 'block' : 'none';
-                }
-            });
-            
-            // Update active filter button
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-        }
+	// ✅ Enhanced filter function
+	function filterCategory(category) {
+	    const sections = document.querySelectorAll('.menu-section');
+	    
+	    sections.forEach(section => {
+		if (category === 'all') {
+		    section.style.display = 'block';
+		} else {
+		    const sectionTitle = section.querySelector('h2').textContent;
+		    
+		    /* ✅ Enhanced matching for ăn vặt
+		    if (category === 'ĂN VẶT') {
+		        const isAnVat = sectionTitle.includes('ĂN VẶT') || 
+		                       sectionTitle.includes('BÁNH TRÁNG') ||
+		                       sectionTitle.includes('DIMSUM') ||
+		                       sectionTitle.includes('TRÁNG MIỆNG');
+		        section.style.display = isAnVat ? 'block' : 'none';
+		    } else {
+		        section.style.display = sectionTitle.includes(category) ? 'block' : 'none';
+		    } */
+		}
+	    });
+	    
+	    // Update active filter button
+	    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+	    if (event && event.target) {
+		event.target.classList.add('active');
+	    }
+	}
+
 
         // Helper function to normalize status values
         function getItemStatus(statusValue) {
@@ -998,39 +1024,51 @@
         }
 
         // Enhanced quantity management with status check
-        function changeQuantity(itemName, itemPrice, change) {
-            const itemKey = itemName.replace(/\s+/g, '-').toLowerCase();
-            const qtyElement = document.getElementById(`qty-${itemKey}`);
-            
-            if (!qtyElement) return;
-            
-            // Check if item is available
-            const menuItemElement = qtyElement.closest('.menu-item');
-            if (menuItemElement && menuItemElement.classList.contains('status-out-of-stock')) {
-                showMessage('⚠️ Món này tạm thời hết hàng!', 'error');
-                return;
-            }
-            
-            let currentQty = parseInt(qtyElement.textContent) || 0;
-            let newQty = Math.max(0, currentQty + change);
-            
-            // Update display with animation
-            qtyElement.textContent = newQty;
-            qtyElement.classList.add('pulse');
-            setTimeout(() => qtyElement.classList.remove('pulse'), 300);
-            
-            itemQuantities[itemName] = newQty;
-            
-            // Update menu item visual state
-            if (newQty > 0) {
-                menuItemElement.classList.add('has-quantity');
-            } else {
-                menuItemElement.classList.remove('has-quantity');
-            }
-            
-            // Update cart automatically
-            updateCartFromQuantities();
-        }
+	function changeQuantity(itemName, itemPrice, change) {
+	    const itemKey = itemName.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, ''); // ✅ Clean key better
+	    const qtyElement = document.getElementById(`qty-${itemKey}`);
+	    
+	    console.log('Changing quantity for:', itemName, 'Key:', itemKey, 'Element found:', !!qtyElement); // ✅ Debug log
+	    
+	    if (!qtyElement) {
+		console.error('Quantity element not found for key:', itemKey);
+		return;
+	    }
+	    
+	    // Check if item is available
+	    const menuItemElement = qtyElement.closest('.menu-item');
+	    if (menuItemElement && menuItemElement.classList.contains('status-out-of-stock')) {
+		showMessage('⚠️ Món này tạm thời hết hàng!', 'error');
+		return;
+	    }
+	    
+	    let currentQty = parseInt(qtyElement.textContent) || 0;
+	    let newQty = Math.max(0, currentQty + change);
+	    
+	    // ✅ Force update display
+	    qtyElement.textContent = newQty;
+	    qtyElement.style.display = 'flex'; // Ensure visibility
+	    
+	    // Add animation
+	    qtyElement.classList.add('pulse');
+	    setTimeout(() => qtyElement.classList.remove('pulse'), 300);
+	    
+	    // ✅ Store with exact same key format
+	    itemQuantities[itemName] = newQty;
+	    
+	    // Update menu item visual state
+	    if (newQty > 0) {
+		menuItemElement.classList.add('has-quantity');
+	    } else {
+		menuItemElement.classList.remove('has-quantity');
+	    }
+	    
+	    // Update cart automatically
+	    updateCartFromQuantities();
+	    
+	    // ✅ Debug log
+	    console.log('Updated quantity:', newQty, 'Total cart items:', cart.length);
+	}
 
         // Update cart based on current quantities
         function updateCartFromQuantities() {
@@ -1416,123 +1454,91 @@
         }
 
         // Enhanced render menu function with status handling
-        function renderMenu(menuData) {
-            const dynamicMenuContainer = document.getElementById('dynamic-menu-container');
-            dynamicMenuContainer.innerHTML = '';
+	function renderMenu(menuData) {
+	    const dynamicMenuContainer = document.getElementById('dynamic-menu-container');
+	    dynamicMenuContainer.innerHTML = '';
 
-            // Group by category
-            const groupedMenu = menuData.reduce((acc, item) => {
-                const category = item.category && item.category.trim() !== '' ? item.category.trim() : 'Món Khác';
-                if (!acc[category]) {
-                    acc[category] = [];
-                }
-                acc[category].push(item);
-                return acc;
-            }, {});
+	    // Group by category
+	    const groupedMenu = menuData.reduce((acc, item) => {
+		const category = item.category && item.category.trim() !== '' ? item.category.trim() : 'Món Khác';
+		if (!acc[category]) {
+		    acc[category] = [];
+		}
+		acc[category].push(item);
+		return acc;
+	    }, {});
 
-            // Generate HTML with status handling
-            for (const category in groupedMenu) {
-                const section = document.createElement('div');
-                section.classList.add('menu-section');
+	    // Generate HTML with status handling
+	    for (const category in groupedMenu) {
+		const section = document.createElement('div');
+		section.classList.add('menu-section');
 
-                const h2 = document.createElement('h2');
-                h2.innerHTML = `${getCategoryIcon(category)} ${category}`;
-                section.appendChild(h2);
+		const h2 = document.createElement('h2');
+		h2.innerHTML = `${getCategoryIcon(category)} ${category}`;
+		section.appendChild(h2);
 
-                const grid = document.createElement('div');
-                grid.classList.add('menu-grid');
+		const grid = document.createElement('div');
+		grid.classList.add('menu-grid');
 
-                groupedMenu[category].forEach(item => {
-                    const menuItem = document.createElement('div');
-                    menuItem.classList.add('menu-item');
-                    
-                    const itemKey = item.name.replace(/\s+/g, '-').toLowerCase();
-                    
-                    // Check status from sheet data
-                    const status = getItemStatus(item.status || item.Status || '');
-                    const isAvailable = status === 'available';
-                    
-                    // Apply status-based styling
-                    menuItem.classList.add(`status-${status}`);
-                    
-                    if (item.name && item.price && !isNaN(parseInt(item.price))) {
-                        // Image placeholder
-                        const imageDiv = document.createElement('div');
-                        imageDiv.classList.add('item-image-placeholder');
-                        imageDiv.innerHTML = getCategoryIcon(item.category);
+		groupedMenu[category].forEach(item => {
+		    const menuItem = document.createElement('div');
+		    menuItem.classList.add('menu-item');
+		    
+		    // ✅ Tạo key nhất quán
+		    const itemKey = item.name.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+		    
+		    // Check status from sheet data
+		    const status = getItemStatus(item.status || item.Status || '');
+		    const isAvailable = status === 'available';
+		    
+		    // Apply status-based styling
+		    menuItem.classList.add(`status-${status}`);
+		    
+		    if (item.name && item.price && !isNaN(parseInt(item.price))) {
+		        // ✅ Clean item name for function call
+		        const cleanItemName = item.name.replace(/'/g, "\\'");
+		        
+		        menuItem.innerHTML = `
+		            <div class="item-image-placeholder">${getCategoryIcon(item.category)}</div>
+		            <div class="item-name">${item.name}</div>
+		            <div class="item-price">${item.price}K</div>
+		            <div class="status-badge ${status}">${isAvailable ? 'Còn hàng' : 'Hết hàng'}</div>
+		            <div class="quantity-controls">
+		                <button class="qty-btn" onclick="changeQuantity('${cleanItemName}', ${parseInt(item.price)}, -1)" ${!isAvailable ? 'disabled' : ''}>-</button>
+		                <span class="quantity" id="qty-${itemKey}">0</span>
+		                <button class="qty-btn" onclick="changeQuantity('${cleanItemName}', ${parseInt(item.price)}, 1)" ${!isAvailable ? 'disabled' : ''}>+</button>
+		            </div>
+		        `;
 
-                        // Item name
-                        const nameDiv = document.createElement('div');
-                        nameDiv.classList.add('item-name');
-                        nameDiv.textContent = item.name || 'Không tên';
+		        // Initialize quantity (only if available)
+		        if (isAvailable) {
+		            itemQuantities[item.name] = 0;
+		        }
+		    }
 
-                        // Item price
-                        const priceDiv = document.createElement('div');
-                        priceDiv.classList.add('item-price');
-                        priceDiv.textContent = `${item.price || '0'}K`;
+		    grid.appendChild(menuItem);
+		});
 
-                        // Status badge
-                        const statusBadge = document.createElement('div');
-                        statusBadge.classList.add('status-badge', status);
-                        statusBadge.textContent = isAvailable ? 'Còn hàng' : 'Hết hàng';
-
-                        // Quantity controls (disabled if out of stock)
-                        const quantityDiv = document.createElement('div');
-                        quantityDiv.classList.add('quantity-controls');
-                        
-                        if (isAvailable) {
-                            quantityDiv.innerHTML = `
-                                <button class="qty-btn" onclick="changeQuantity('${item.name.replace(/'/g, "\\'")}', ${parseInt(item.price)}, -1)">-</button>
-                                <span class="quantity" id="qty-${itemKey}">0</span>
-                                <button class="qty-btn" onclick="changeQuantity('${item.name.replace(/'/g, "\\'")}', ${parseInt(item.price)}, 1)">+</button>
-                            `;
-                        } else {
-                            quantityDiv.innerHTML = `
-                                <button class="qty-btn" disabled>-</button>
-                                <span class="quantity" id="qty-${itemKey}">0</span>
-                                <button class="qty-btn" disabled>+</button>
-                            `;
-                        }
-
-                        // Append elements
-                        menuItem.appendChild(imageDiv);
-                        menuItem.appendChild(nameDiv);
-                        menuItem.appendChild(priceDiv);
-                        menuItem.appendChild(statusBadge);
-                        menuItem.appendChild(quantityDiv);
-
-          
-                        // Initialize quantity (only if available)
-                        if (isAvailable) {
-                            itemQuantities[item.name] = 0;
-                        }
-                    } else {
-                        console.error('Invalid menu item data:', item);
-                        menuItem.style.backgroundColor = '#ffe0e0';
-                        menuItem.style.pointerEvents = 'none';
-                        menuItem.innerHTML = '<div class="item-name">Dữ liệu không hợp lệ</div>';
-                    }
-
-                    grid.appendChild(menuItem);
-                });
-
-                section.appendChild(grid);
-                dynamicMenuContainer.appendChild(section);
-            }
-        }
+		section.appendChild(grid);
+		dynamicMenuContainer.appendChild(section);
+	    }
+	}
 
         // Category icons helper
-        function getCategoryIcon(category) {
-            const icons = {
-                'CAFE': '☕',
-                'TRÀ SỮA': '🧋',
-                'NƯỚC ÉP': '🥤',
-                'TRÀ': '🍃',
-                'SỮA CHUA LẮC': '🥛',
-                'KHÁC': '🍹'
-            };
-            return icons[category] || '🍽️';
-        }
+        // ✅ Thêm icons cho categories mới
+	function getCategoryIcon(category) {
+	    const icons = {
+		'CAFE': '☕',
+		'TRÀ SỮA': '🧋',
+		'NƯỚC ÉP': '🥤',
+		'TRÀ': '🍃',
+		'SỮA CHUA LẮC': '🥛',
+		'ĂN VẶT': '🍟',
+		'KHÁC': '🍹'
+	    };
+	    return icons[category] || '🍽️';
+	}
+
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
