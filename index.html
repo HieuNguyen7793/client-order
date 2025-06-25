@@ -224,7 +224,7 @@
 
         .menu-item.status-out-of-stock .item-name {
             color: #666;
-            text-decoration: line-through;
+           /* text-decoration: line-through; */
         }
 
         .menu-item.status-out-of-stock .item-price {
@@ -265,7 +265,7 @@
         }
 
         /* Out of stock overlay */
-        .out-of-stock-overlay {
+       /* .out-of-stock-overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -281,7 +281,8 @@
             color: #e74c3c;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
+        } 
+        */
 
         /* Item Image Placeholder */
         .item-image-placeholder {
@@ -1500,14 +1501,7 @@
                         menuItem.appendChild(statusBadge);
                         menuItem.appendChild(quantityDiv);
 
-                        // Add overlay for out of stock items
-                        if (!isAvailable) {
-                            const overlay = document.createElement('div');
-                            overlay.classList.add('out-of-stock-overlay');
-                            overlay.textContent = 'Tạm hết';
-                            menuItem.appendChild(overlay);
-                        }
-                        
+          
                         // Initialize quantity (only if available)
                         if (isAvailable) {
                             itemQuantities[item.name] = 0;
